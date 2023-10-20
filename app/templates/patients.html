@@ -27,4 +27,46 @@
             {% endfor %}
         </tbody>
     </table>
+
+     <!-- Кнопка для открытия модального окна -->
+     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Добавить пациента
+    </button>
+
+    <!-- Модальное окно для добавления пациента -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить пациента</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="{{ url_for('patients.add_patient') }}">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Имя</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">Пол</label>
+                            <input type="text" class="form-control" id="gender" name="gender" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="birth_date" class="form-label">Дата Рождения</label>
+                            <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="home_address" class="form-label">Домашний Адрес</label>
+                            <input type="text" class="form-control" id="home_address" name="home_address" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
