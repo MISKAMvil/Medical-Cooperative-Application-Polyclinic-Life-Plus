@@ -42,6 +42,9 @@ migrate = Migrate(app, db)
 from models import *
 # Чтобы flask_migrate увидел нашу модель, ее надо импортировать
 
+from patients import bp as patients_bp
+app.register_blueprint(patients_bp)
+
 @app.route('/')
 def index():
     return render_template('index.html')

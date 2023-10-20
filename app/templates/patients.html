@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- <h4>URL</h4>
+	<h5><a href="{# request.url #}">{# request.url #}</a></h5> -->
+
+    <h1>Список пациентов</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Пол</th>
+                <th>Дата Рождения</th>
+                <th>Домашний Адрес</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+            <tr>
+                <td>{{ patient.id }}</td>
+                <td>{{ patient.name }}</td>
+                <td>{{ patient.gender }}</td>
+                <td>{{ patient.birth_date }}</td>
+                <td>{{ patient.home_address }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
