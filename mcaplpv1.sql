@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Окт 20 2023 г., 19:53
+-- Время создания: Окт 24 2023 г., 08:06
 -- Версия сервера: 8.1.0
 -- Версия PHP: 8.2.7
 
@@ -36,7 +36,7 @@ CREATE TABLE `alembic_version` (
 --
 
 INSERT INTO `alembic_version` (`version_num`) VALUES
-('ef16c462518c');
+('1db2884ee99a');
 
 -- --------------------------------------------------------
 
@@ -63,6 +63,50 @@ INSERT INTO `patient` (`id`, `name`, `gender`, `birth_date`, `home_address`) VAL
 (4, 'Bob Brown', 'Male', '1995-04-15', '567 Oak Lane'),
 (5, 'Eva White', 'Female', '1980-12-10', '321 Pine Court');
 
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `desc` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `desc`) VALUES
+(1, 'Администратор', 'Суперпользователь, имеет полный доступ к системе.'),
+(2, 'Пользователь', 'Учетная запись этого пользователя ограниченна в правах использования функционала приложения.');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `users`
+--
+
+CREATE TABLE `users` (
+  `id` int NOT NULL,
+  `login` varchar(100) NOT NULL,
+  `password_hash` varchar(200) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `middle_name` varchar(100) DEFAULT NULL,
+  `role_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `users`
+--
+
+INSERT INTO `users` (`id`, `login`, `password_hash`, `last_name`, `first_name`, `middle_name`, `role_id`) VALUES
+(1, 'user1', 'pbkdf2:sha256:260000$tqJWXJnpa5rAasaR$bbb8e775aa0840a1a09161c7f99732c6dae5878fcdc5551f250308e4540ea022', 'Иванов', 'Иван', 'Иванович', 1),
+(2, 'user2', 'pbkdf2:sha256:260000$NSNXsTypkIBdzIis$12a3cc9a9e90f8778f071fdd5f9661edc5653fe84130c110396c815307649a7f', 'Петров', 'Петр', 'Петрович', 2);
+
 --
 -- Индексы сохранённых таблиц
 --
@@ -80,6 +124,21 @@ ALTER TABLE `patient`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_roles_name` (`name`);
+
+--
+-- Индексы таблицы `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_users_login` (`login`),
+  ADD KEY `fk_users_role_id_roles` (`role_id`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -87,7 +146,29 @@ ALTER TABLE `patient`
 -- AUTO_INCREMENT для таблицы `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT для таблицы `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT для таблицы `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `fk_users_role_id_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

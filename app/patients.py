@@ -17,7 +17,15 @@ def add_patient():
     home_address = request.form['home_address']
 
     new_patient = Patient(name=name, gender=gender, birth_date=birth_date, home_address=home_address)
-    db.session.add(new_patient)
-    db.session.commit()
 
+    try:
+        db.session.add(new_patient)
+        db.session.commit()
+        flash('Рецензия успешно отправлена на проверку.', 'success')
+    except:
+        db.session.rollback()
+        flash('Ошибка отправления данных. Введены некорректные данные или не все поля заполнены!', 'danger')
+        # return redirect(url_for('patients.patient_list'))
+
+    # flash('Рецензия успешно отправлена на проверку.', 'success')
     return redirect(url_for('patients.patient_list'))

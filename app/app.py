@@ -42,8 +42,13 @@ migrate = Migrate(app, db)
 from models import *
 # Чтобы flask_migrate увидел нашу модель, ее надо импортировать
 
+from auth import bp as auth_bp, init_login_manager
 from patients import bp as patients_bp
+
+app.register_blueprint(auth_bp)
 app.register_blueprint(patients_bp)
+
+init_login_manager(app)
 
 @app.route('/')
 def index():
