@@ -9,21 +9,50 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Имя</th>
+                <th>ФИО</th>
                 <th>Пол</th>
                 <th>Дата Рождения</th>
                 <th>Домашний Адрес</th>
+                <th>Действия</th> <!-- Новый заголовок для колонки действий -->
             </tr>
         </thead>
         <tbody>
             {% for patient in patients %}
             <tr>
                 <td>{{ patient.id }}</td>
-                <td>{{ patient.name }}</td>
+                <td>{{ patient.full_name }}</td>
                 <td>{{ patient.gender }}</td>
                 <td>{{ patient.birth_date }}</td>
                 <td>{{ patient.home_address }}</td>
+                <td>
+                    <!-- Кнопка для удаления с модальным окном подтверждения -->
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ patient.id }}">
+                        Удалить
+                    </button>
+                </td>
             </tr>
+
+            <!-- Модальное окно для подтверждения удаления -->
+            <div class="modal fade" id="deleteModal{{ patient.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Удаление записи</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Вы уверены, что хотите удалить запись о пациенте <strong>{{ patient.full_name }}</strong>?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                            <form method="post" action="{{ url_for('patients.delete_patient', patient_id=patient.id) }}">
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {% endfor %}
         </tbody>
     </table>
@@ -44,8 +73,16 @@
                 <form method="post" action="{{ url_for('patients.add_patient') }}">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Имя</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <label for="first_name" class="form-label">Имя</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="last_name" class="form-label">Фамилия</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="middle_name" class="form-label">Отчество</label>
+                            <input type="text" class="form-control" id="middle_name" name="middle_name">
                         </div>
                         <div class="mb-3">
                             <label for="gender" class="form-label">Пол</label>

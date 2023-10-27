@@ -16,16 +16,23 @@ from app import db
 
 
 class Patient(db.Model):
-    tablename = 'patients'
+    __tablename__ = 'patients'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    first_name = db.Column(db.String(100), nullable=False)
+    last_name = db.Column(db.String(100), nullable=False)
+    middle_name = db.Column(db.String(100))
     gender = db.Column(db.String(10), nullable=False)
     birth_date = db.Column(db.Date, nullable=False)
     home_address = db.Column(db.String(100), nullable=False)
 
-    def repr(self):
-        return '<Patient %r>' % self.name
+    @property
+    def full_name(self):
+        return ' '.join([self.last_name, self.first_name, self.middle_name or ''])
+
+    def __repr__(self):
+        return '<Patient %r %r %r>' % (self.first_name, self.last_name, self.middle_name)
+
 
 
 class User(db.Model, UserMixin):

@@ -11,21 +11,41 @@ def patient_list():
 
 @bp.route('/add_patient', methods=['POST'])
 def add_patient():
-    name = request.form['name']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    middle_name = request.form['middle_name']
     gender = request.form['gender']
     birth_date = request.form['birth_date']
     home_address = request.form['home_address']
 
-    new_patient = Patient(name=name, gender=gender, birth_date=birth_date, home_address=home_address)
+    new_patient = Patient(first_name=first_name, last_name=last_name, middle_name=middle_name, gender=gender, birth_date=birth_date, home_address=home_address)
 
     try:
         db.session.add(new_patient)
         db.session.commit()
-        flash('Рецензия успешно отправлена на проверку.', 'success')
+        flash('Запись о пациенте успешно добавлена.', 'success')
     except:
         db.session.rollback()
         flash('Ошибка отправления данных. Введены некорректные данные или не все поля заполнены!', 'danger')
         # return redirect(url_for('patients.patient_list'))
 
-    # flash('Рецензия успешно отправлена на проверку.', 'success')
+    # flash('Запись о пациенте успешно добавлена.', 'success')
     return redirect(url_for('patients.patient_list'))
+
+@bp.route('/delete_patient/<int:patient_id>', methods=['POST'])
+def delete_patient(patient_id):
+    if request.method == 'POST':
+        
+        patient = Patient.query.get(patient_id)
+
+        if patient:
+            try:
+                db.session.delete(patient)
+                db.session.commit()
+                flash('Запись о пациенте успешно удалена.', 'success')
+            except:
+                db.session.rollback()
+                flash('Ошибка отправления данных. Не удалось удалить данные!', 'danger')
+            
+        return redirect(url_for('patients.patient_list'))
+    return render_template('patients.html')
