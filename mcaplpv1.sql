@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Окт 24 2023 г., 08:06
+-- Время создания: Окт 27 2023 г., 22:20
 -- Версия сервера: 8.1.0
 -- Версия PHP: 8.2.7
 
@@ -36,32 +36,23 @@ CREATE TABLE `alembic_version` (
 --
 
 INSERT INTO `alembic_version` (`version_num`) VALUES
-('1db2884ee99a');
+('fa384cf18edc');
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `patient`
+-- Структура таблицы `patients`
 --
 
-CREATE TABLE `patient` (
+CREATE TABLE `patients` (
   `id` int NOT NULL,
-  `name` varchar(100) NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `middle_name` varchar(100) DEFAULT NULL,
   `gender` varchar(10) NOT NULL,
   `birth_date` date NOT NULL,
   `home_address` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Дамп данных таблицы `patient`
---
-
-INSERT INTO `patient` (`id`, `name`, `gender`, `birth_date`, `home_address`) VALUES
-(1, 'John Doe', 'Male', '1990-01-01', '123 Main Street'),
-(2, 'Jane Smith', 'Female', '1985-05-05', '456 Park Avenue'),
-(3, 'Alice Johnson', 'Female', '1988-08-08', '789 Elm Road'),
-(4, 'Bob Brown', 'Male', '1995-04-15', '567 Oak Lane'),
-(5, 'Eva White', 'Female', '1980-12-10', '321 Pine Court');
 
 -- --------------------------------------------------------
 
@@ -118,9 +109,9 @@ ALTER TABLE `alembic_version`
   ADD PRIMARY KEY (`version_num`);
 
 --
--- Индексы таблицы `patient`
+-- Индексы таблицы `patients`
 --
-ALTER TABLE `patient`
+ALTER TABLE `patients`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -143,10 +134,10 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT для таблицы `patient`
+-- AUTO_INCREMENT для таблицы `patients`
 --
-ALTER TABLE `patient`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `patients`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `roles`
