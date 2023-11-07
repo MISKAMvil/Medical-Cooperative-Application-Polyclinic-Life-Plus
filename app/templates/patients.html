@@ -13,7 +13,7 @@
                 <th>Пол</th>
                 <th>Дата Рождения</th>
                 <th>Домашний Адрес</th>
-                <th>Действия</th> <!-- Новый заголовок для колонки действий -->
+                <th>Действия</th> <!-- Заголовок для колонки действий -->
             </tr>
         </thead>
         <tbody>
@@ -22,9 +22,13 @@
                 <td>{{ patient.id }}</td>
                 <td>{{ patient.full_name }}</td>
                 <td>{{ patient.gender }}</td>
-                <td>{{ patient.birth_date }}</td>
+                <td>{{ patient.birth_date.strftime('%d %B %Y') }}</td>
                 <td>{{ patient.home_address }}</td>
                 <td>
+                    <!-- Перейти на страницу с историей приемов -->
+                    <a href="{{ url_for('patients.appointments', patient_id=patient.id) }}" class="btn btn-primary">
+                        Осмотры
+                    </a>
                     <!-- Кнопка для удаления с модальным окном подтверждения -->
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ patient.id }}">
                         Удалить
@@ -41,7 +45,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Вы уверены, что хотите удалить запись о пациенте <strong>{{ patient.full_name }}</strong>?</p>
+                            <p>Вы уверены, что хотите удалить запись о пациенте <strong>{{ patient.full_name.strip() }}</strong>?</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
@@ -58,7 +62,7 @@
     </table>
 
      <!-- Кнопка для открытия модального окна -->
-     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Добавить пациента
     </button>
 
@@ -86,11 +90,15 @@
                         </div>
                         <div class="mb-3">
                             <label for="gender" class="form-label">Пол</label>
-                            <input type="text" class="form-control" id="gender" name="gender" required>
+                            <select class="form-select" id="gender" name="gender" required>
+                                <option value="" selected disabled hidden>Не выбран</option>
+                                <option value="Male">Мужской</option>
+                                <option value="Female">Женский</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="birth_date" class="form-label">Дата Рождения</label>
-                            <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+                            <input type="date" class="form-control" id="birth_date" name="birth_date" min="1900-01-01" required>
                         </div>
                         <div class="mb-3">
                             <label for="home_address" class="form-label">Домашний Адрес</label>

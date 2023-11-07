@@ -1,5 +1,7 @@
 import os
 
+from datetime import datetime
+
 import sqlalchemy as sa
 # импортируется библиотека SQLAlchemy под псевдонимом sa
 
@@ -33,6 +35,20 @@ class Patient(db.Model):
     def __repr__(self):
         return '<Patient %r %r %r>' % (self.first_name, self.last_name, self.middle_name)
 
+
+class Appointment(db.Model):
+    __tablename__ = 'appointments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    symptoms = db.Column(db.String(255), nullable=False)
+    diagnosis = db.Column(db.String(255), nullable=False)
+
+    patient = db.relationship('Patient', backref=db.backref('appointments', lazy=True))
+
+    def __repr__(self):
+        return f'<Appointment {self.date} - Patient ID: {self.patient_id}>'
 
 
 class User(db.Model, UserMixin):

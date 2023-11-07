@@ -49,3 +49,10 @@ def delete_patient(patient_id):
             
         return redirect(url_for('patients.patient_list'))
     return render_template('patients.html')
+
+@bp.route('/appointments/<int:patient_id>')
+def appointments(patient_id):
+    patient = Patient.query.get(patient_id)
+    # Получаем информацию об осмотрах пациента из базы данных
+    appointments = Appointment.query.filter_by(patient_id=patient_id).all()
+    return render_template('appointments.html', patient=patient, appointments=appointments)

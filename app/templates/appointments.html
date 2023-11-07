@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>История осмотров пациента {{ patient.full_name }}</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Дата проведения</th>
+                <th>Симптомы</th>
+                <th>Диагноз</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.symptoms }}</td>
+                    <td>{{ appointment.diagnosis }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Кнопка действия "Новый прием" -->
+    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#newAppointmentModal">
+        Новый прием
+    </button>
+
+    <!-- Модальное окно для нового приема -->
+    <div class="modal fade" id="newAppointmentModal" tabindex="-1" aria-labelledby="newAppointmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newAppointmentModalLabel">Новый прием</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Место проведения осмотра</label>
+                            <input type="text" class="form-control" id="location" name="location" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="symptoms" class="form-label">Симптомы</label>
+                            <input type="text" class="form-control" id="symptoms" name="symptoms" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="diagnosis" class="form-label">Диагноз</label>
+                            <input type="text" class="form-control" id="diagnosis" name="diagnosis" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="prescription" class="form-label">Предписания</label>
+                            <input type="text" class="form-control" id="prescription" name="prescription">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ url_for('patients.patient_list') }}" class="btn btn-primary mb-3">Вернуться</a>
+
+{% endblock %}
