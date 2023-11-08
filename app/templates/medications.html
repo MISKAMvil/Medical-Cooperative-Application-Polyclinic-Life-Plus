@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Список препаратов</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Способ применения</th>
+                <th>Описание</th>
+                <th>Воздействие</th>
+                <th>Побочные эффекты</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medication in medications %}
+                <tr>
+                    <td>{{ medication.id }}</td>
+                    <td>{{ medication.name }}</td>
+                    <td>{{ medication.method_of_use }}</td>
+                    <td>{{ medication.description }}</td>
+                    <td>{{ medication.effects }}</td>
+                    <td>{{ medication.side_effects }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Кнопка действия "Добавить препарат" -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newMedicationModal">
+        Добавить препарат
+    </button>
+
+    <!-- Модальное окно для добавления препаратов -->
+    <div class="modal fade" id="newMedicationModal" tabindex="-1" aria-labelledby="newMedicationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newMedicationModalLabel">Добавить препарат</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('medications.add_medication') }}" method="post">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Название</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="method_of_use" class="form-label">Способ применения</label>
+                            <input type="text" class="form-control" id="method_of_use" name="method_of_use" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Описание</label>
+                            <input type="text" class="form-control" id="description" name="description" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="effects" class="form-label">Воздействие</label>
+                            <input type="text" class="form-control" id="effects" name="effects" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="side_effects" class="form-label">Побочные эффекты</label>
+                            <input type="text" class="form-control" id="side_effects" name="side_effects" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Add Medication</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

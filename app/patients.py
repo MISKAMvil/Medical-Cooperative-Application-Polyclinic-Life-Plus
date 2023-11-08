@@ -4,10 +4,12 @@ from models import *
 
 bp = Blueprint('patients', __name__, url_prefix='/patients')
 
+
 @bp.route('/')
 def patient_list():
     patients = Patient.query.all()  # Получаем все записи из таблицы пациентов
     return render_template('patients.html', patients=patients)
+
 
 @bp.route('/add_patient', methods=['POST'])
 def add_patient():
@@ -32,7 +34,8 @@ def add_patient():
     # flash('Запись о пациенте успешно добавлена.', 'success')
     return redirect(url_for('patients.patient_list'))
 
-@bp.route('/delete_patient/<int:patient_id>', methods=['POST'])
+
+@bp.route('/patient<int:patient_id>/delete_patient', methods=['POST'])
 def delete_patient(patient_id):
     if request.method == 'POST':
         
@@ -50,9 +53,37 @@ def delete_patient(patient_id):
         return redirect(url_for('patients.patient_list'))
     return render_template('patients.html')
 
-@bp.route('/appointments/<int:patient_id>')
+
+@bp.route('/patient<int:patient_id>', methods=['GET'])
 def appointments(patient_id):
     patient = Patient.query.get(patient_id)
     # Получаем информацию об осмотрах пациента из базы данных
     appointments = Appointment.query.filter_by(patient_id=patient_id).all()
-    return render_template('appointments.html', patient=patient, appointments=appointments)
+    medications = Medication.query.all()
+    return render_template('appointments.html', patient=patient, appointments=appointments, medications=medications)
+
+
+@bp.route('/patient<int:patient_id>/add_appointment', methods=['POST'])
+def add_appointment(patient_id):
+    if request.method == 'POST':
+        location = request.form.get('location')
+        symptoms = request.form.get('symptoms')
+        diagnosis = request.form.get('diagnosis')
+        medications_ids = request.form.getlist('medications')
+        prescription = request.form.get('prescription')
+        
+        new_appointment = Appointment(symptoms=symptoms, diagnosis=diagnosis, patient_id=patient_id)
+        for medication_id in medications_ids:
+            medication = Medication.query.get(medication_id)
+            new_appointment.medications.append(medication)
+
+        try:
+            db.session.add(new_appointment)
+            db.session.commit()
+            flash('Запись о пациенте успешно добавлена.', 'success')
+        except:
+            db.session.rollback()
+            flash('Ошибка отправления данных. Введены некорректные данные или не все поля заполнены!', 'danger')
+
+        return redirect(url_for('patients.appointments', patient_id=patient_id))
+    return redirect(url_for('patients.patient_list'))

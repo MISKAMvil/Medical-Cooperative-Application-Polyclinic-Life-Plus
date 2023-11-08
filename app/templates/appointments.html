@@ -34,7 +34,7 @@
                     <h5 class="modal-title" id="newAppointmentModalLabel">Новый прием</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form>
+                <form action="{{ url_for('patients.add_appointment', patient_id=patient.id) }}" method="post">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="location" class="form-label">Место проведения осмотра</label>
@@ -47,6 +47,14 @@
                         <div class="mb-3">
                             <label for="diagnosis" class="form-label">Диагноз</label>
                             <input type="text" class="form-control" id="diagnosis" name="diagnosis" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="medications" class="form-label">Лекарства</label>
+                            <select class="form-select" id="medications" name="medications">
+                                {% for medication in medications %}
+                                    <option value="{{ medication.id }}">{{ medication.name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="prescription" class="form-label">Предписания</label>

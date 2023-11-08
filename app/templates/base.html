@@ -38,6 +38,11 @@
 						</li>
 
                         <li class="nav-item">
+							<a class="nav-link {% if request.endpoint == 'medications.medication_list' %} active {% endif %}"
+								href="{{ url_for('medications.medication_list') }}">Список препаратов</a>
+						</li>
+
+                        <li class="nav-item">
                             {% if current_user.is_authenticated %}
                             <a class="nav-link {% if request.endpoint == 'login' %} active {% endif %}"
                                 href="{{ url_for('auth.logout') }}">Выход</a>

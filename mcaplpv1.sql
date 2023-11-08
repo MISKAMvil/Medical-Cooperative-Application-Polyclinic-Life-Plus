@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Окт 27 2023 г., 22:20
+-- Время создания: Ноя 08 2023 г., 20:49
 -- Версия сервера: 8.1.0
 -- Версия PHP: 8.2.7
 
@@ -36,7 +36,60 @@ CREATE TABLE `alembic_version` (
 --
 
 INSERT INTO `alembic_version` (`version_num`) VALUES
-('fa384cf18edc');
+('bd941f5c8ef2');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `appointments`
+--
+
+CREATE TABLE `appointments` (
+  `id` int NOT NULL,
+  `patient_id` int NOT NULL,
+  `date` datetime NOT NULL,
+  `symptoms` varchar(255) NOT NULL,
+  `diagnosis` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `appointments`
+--
+
+INSERT INTO `appointments` (`id`, `patient_id`, `date`, `symptoms`, `diagnosis`) VALUES
+(1, 19, '2023-11-08 18:25:06', 'Кашель и боль в горле', 'Ангина'),
+(2, 19, '2023-11-08 18:26:11', 'Кашель и боль в горле', 'Ангина'),
+(3, 19, '2023-11-08 19:00:39', 'Насморк', 'Гайморит '),
+(4, 19, '2023-11-08 19:06:20', 'Кашель и боль в горле', 'Гайморит '),
+(5, 19, '2023-11-08 22:12:33', 'Кашель и боль в горле', 'Ангина'),
+(6, 19, '2023-11-08 23:39:54', 'Насморк', 'Ангина'),
+(7, 19, '2023-11-08 23:40:32', 'Насморк', 'Ангина'),
+(8, 20, '2023-11-08 23:43:22', 'Насморк 2', 'Ангина 1');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `medications`
+--
+
+CREATE TABLE `medications` (
+  `id` int NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `method_of_use` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `effects` text NOT NULL,
+  `side_effects` text NOT NULL,
+  `appointment_id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `medications`
+--
+
+INSERT INTO `medications` (`id`, `name`, `method_of_use`, `description`, `effects`, `side_effects`, `appointment_id`) VALUES
+(1, '123', '123', '123', '123', '123', NULL),
+(2, '123', '213', '132', '312', '123', 7),
+(3, 'qw qw', '1333', '1333', '1333', '3333', 8);
 
 -- --------------------------------------------------------
 
@@ -53,6 +106,14 @@ CREATE TABLE `patients` (
   `birth_date` date NOT NULL,
   `home_address` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `patients`
+--
+
+INSERT INTO `patients` (`id`, `first_name`, `last_name`, `middle_name`, `gender`, `birth_date`, `home_address`) VALUES
+(19, 'Максим', 'Балаев', 'Игоревич', 'Male', '2002-03-20', '12 Малая Семеновская'),
+(20, 'Максим', 'Балаев', '', 'Male', '1922-02-02', 'дом 12');
 
 -- --------------------------------------------------------
 
@@ -109,6 +170,20 @@ ALTER TABLE `alembic_version`
   ADD PRIMARY KEY (`version_num`);
 
 --
+-- Индексы таблицы `appointments`
+--
+ALTER TABLE `appointments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_appointments_patient_id_patients` (`patient_id`);
+
+--
+-- Индексы таблицы `medications`
+--
+ALTER TABLE `medications`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_medications_appointment_id_appointments` (`appointment_id`);
+
+--
 -- Индексы таблицы `patients`
 --
 ALTER TABLE `patients`
@@ -134,10 +209,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT для таблицы `appointments`
+--
+ALTER TABLE `appointments`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT для таблицы `medications`
+--
+ALTER TABLE `medications`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT для таблицы `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT для таблицы `roles`
@@ -154,6 +241,18 @@ ALTER TABLE `users`
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
+
+--
+-- Ограничения внешнего ключа таблицы `appointments`
+--
+ALTER TABLE `appointments`
+  ADD CONSTRAINT `fk_appointments_patient_id_patients` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `medications`
+--
+ALTER TABLE `medications`
+  ADD CONSTRAINT `fk_medications_appointment_id_appointments` FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `users`

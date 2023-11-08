@@ -40,15 +40,36 @@ class Appointment(db.Model):
     __tablename__ = 'appointments'
 
     id = db.Column(db.Integer, primary_key=True)
-    patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
-    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.now)
     symptoms = db.Column(db.String(255), nullable=False)
     diagnosis = db.Column(db.String(255), nullable=False)
 
+    patient_id = db.Column(db.Integer, db.ForeignKey('patients.id'), nullable=False)
     patient = db.relationship('Patient', backref=db.backref('appointments', lazy=True))
+    # medications = db.relationship('Medication', backref='medications_relation', lazy=True)
+    medications = db.relationship("Medication", back_populates="appointment", overlaps="medications_relation")
 
     def __repr__(self):
-        return f'<Appointment {self.date} - Patient ID: {self.patient_id}>'
+        return f"Appointment(id={self.id}, date={self.date}, patient_id={self.patient_id})"
+
+
+class Medication(db.Model):
+    __tablename__ = 'medications'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    method_of_use = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    effects = db.Column(db.Text, nullable=False)
+    side_effects = db.Column(db.Text, nullable=False)
+
+    # appointment_id = db.Column(db.Integer, db.ForeignKey('appointments.id'), nullable=False)
+    # appointment = db.relationship('Appointment', backref='medications_relation', lazy=True)
+    appointment_id = db.Column(db.Integer, db.ForeignKey('appointments.id'))
+    appointment = db.relationship("Appointment", back_populates="medications", overlaps="medications_relation")
+
+    def __repr__(self):
+        return f"Medication(id={self.id}, name='{self.name}', appointment_id={self.appointment_id})"
 
 
 class User(db.Model, UserMixin):
