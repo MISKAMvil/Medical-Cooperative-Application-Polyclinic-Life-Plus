@@ -12,7 +12,7 @@ services:
       - db
     networks:
       net1:
-        ipv4_address: 172.16.238.10  
+        ipv4_address: 172.16.237.10  
   db:
     image: mysql:8.1.0
     cap_add:
@@ -22,10 +22,10 @@ services:
      - MYSQL_DATABASE=mcaplpv1
      - MYSQL_ROOT_PASSWORD=root
      - MYSQL_USER=root
-     - MYSQL_ROOT_HOST=172.16.238.10
+     - MYSQL_ROOT_HOST=172.16.237.10
     networks:
       net1:
-       ipv4_address: 172.16.238.11     
+       ipv4_address: 172.16.237.11     
     ports:
       - '3306:3306'
     volumes:
@@ -39,4 +39,4 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.16.238.0/24
+        - subnet: 172.16.237.0/24
