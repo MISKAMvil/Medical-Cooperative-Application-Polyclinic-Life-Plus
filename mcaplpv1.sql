@@ -7,6 +7,11 @@
 -- Версия сервера: 8.1.0
 -- Версия PHP: 8.2.7
 
+
+CREATE DATABASE mcaplpv1;
+use mcaplpv1;
+
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
