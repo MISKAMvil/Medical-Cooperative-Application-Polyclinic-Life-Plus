@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   gunicorn:
-    image: 192.168.31.10:5000/compose_2
+    image: compose_2
     networks:
       net1:
         ipv4_address: 172.16.238.10  
