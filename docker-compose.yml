@@ -1,18 +1,11 @@
-services:  
+version: '3.8'
+services:
   gunicorn:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - /var/lib/jenkins/workspace/poly+1:/gunicorn
-     # network_mode: service:db 
-    ports:
-      - '8000:8000'
-    depends_on:
-      - db
+    image: 5b31379c8e5b
     networks:
       net1:
-        ipv4_address: 172.16.237.10
+        ipv4_address: 172.16.238.10     
+
   db:
     image: mysql:8.1.0
     cap_add:
@@ -21,15 +14,15 @@ services:
     environment:
      - MYSQL_DATABASE=mcaplpv1
      - MYSQL_ROOT_PASSWORD=root
-     - MYSQL_ROOT_HOST=172.16.237.10
+     - MYSQL_ROOT_HOST=172.16.238.10
     networks:
       net1:
-       ipv4_address: 172.16.237.11
+       ipv4_address: 172.16.238.11
     ports:
       - '3306:3306'
     volumes:
-      - /var/lib/jenkins/workspace/poly+1:/var/lib/mysql
-      - /var/lib/jenkins/workspace/poly+:/docker-entrypoint-initdb.d/mcaplpv1.sql
+      - /var/lib/poly+1:/var/lib/mysql
+      - /var/lib/poly+:/docker-entrypoint-initdb.d/mcaplpv1.sql
 volumes:
   db:
     driver: local
@@ -38,4 +31,4 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.16.237.0/24
+        - subnet: 172.16.238.0/24
