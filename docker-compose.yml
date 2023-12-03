@@ -4,7 +4,7 @@ services:
     image: 5b31379c8e5b
     networks:
       net1:
-        ipv4_address: 172.16.238.10     
+        ipv4_address: 172.16.238.10  
 
   db:
     image: mysql:8.1.0
