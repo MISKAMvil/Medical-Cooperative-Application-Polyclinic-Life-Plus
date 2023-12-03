@@ -2,7 +2,7 @@ import os
 
 SECRET_KEY = 'secret-key'
 
-SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root:root@172.16.237.11/mcaplpv1'
+SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://root:root@172.16.238.11/mcaplpv1'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ECHO = True
 
