@@ -12,6 +12,7 @@
                 <th>Описание</th>
                 <th>Воздействие</th>
                 <th>Побочные эффекты</th>
+                <th>Действия</th> <!-- Заголовок для колонки действий -->
             </tr>
         </thead>
         <tbody>
@@ -23,7 +24,35 @@
                     <td>{{ medication.description }}</td>
                     <td>{{ medication.effects }}</td>
                     <td>{{ medication.side_effects }}</td>
+                    <td>
+                        <!-- Кнопка для удаления с модальным окном подтверждения -->
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ medication.id }}">
+                            Удалить
+                        </button>
+                    </td>
                 </tr>
+                
+                <!-- Модальное окно для подтверждения удаления -->
+                <div class="modal fade" id="deleteModal{{ medication.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">Удаление записи</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Вы уверены, что хотите удалить запись о лекарстве <strong>{{ medication.name }}</strong>?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                <form method="post" action="{{ url_for('medications.delete_medication', medication_id=medication.id) }}">
+                                    <button type="submit" class="btn btn-danger">Удалить</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             {% endfor %}
         </tbody>
     </table>
@@ -64,8 +93,8 @@
                             <input type="text" class="form-control" id="side_effects" name="side_effects" required>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Add Medication</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Добавить</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                         </div>
                     </form>
                 </div>

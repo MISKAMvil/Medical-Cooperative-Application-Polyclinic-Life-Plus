@@ -31,3 +31,22 @@ def add_medication():
             flash('Ошибка при добавлении нового лекарства. Пожалуйста, проверьте введенные данные.', 'danger')
     
     return redirect(url_for('medications.medication_list'))
+
+
+@bp.route('medication<int:medication_id>/delete_medication', methods=['POST'])
+def delete_medication(medication_id):
+    if request.method == 'POST':
+        
+        medication = Medication.query.get(medication_id)
+
+        if medication:
+            try:
+                db.session.delete(medication)
+                db.session.commit()
+                flash('Запись о препарате успешно удалена.', 'success')
+            except:
+                db.session.rollback()
+                flash('Ошибка отправления данных. Не удалось удалить данные!', 'danger')
+            
+        return redirect(url_for('medications.medication_list'))
+    return render_template('medications.html')

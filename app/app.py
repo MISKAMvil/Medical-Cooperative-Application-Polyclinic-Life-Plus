@@ -45,10 +45,12 @@ from models import *
 from auth import bp as auth_bp, init_login_manager
 from patients import bp as patients_bp
 from medications import bp as medications_bp
+from medical_call_history import bp as medical_call_history_bp
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(patients_bp)
 app.register_blueprint(medications_bp)
+app.register_blueprint(medical_call_history_bp)
 
 init_login_manager(app)
 

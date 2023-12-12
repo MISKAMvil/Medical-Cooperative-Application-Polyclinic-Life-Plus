@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="mt-4 mb-4">История вызовов</h1>
+
+    <!-- Форма для фильтрации по дате -->
+    <form class="mb-4" method="GET" action="{{ url_for('medical_call_history.medical_call_history') }}">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="start_date" class="form-label">Начальная дата:</label>
+                <input type="date" id="start_date" name="start_date" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label for="end_date" class="form-label">Конечная дата:</label>
+                <input type="date" id="end_date" name="end_date" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label for="disease_name" class="form-label">Поиск по диагнозу</label>
+                <input type="text" id="disease_name" name="disease_name" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary mt-4">Применить фильтр</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Таблица для отображения медицинской истории вызовов -->
+    <table class="table">
+        <thead>
+            <tr>
+                <!-- <th>ID</th> -->
+                <th>Дата и время</th>
+                <th>Пациент</th>
+                <th>Симптомы</th>
+                <th>Диагноз</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for call in medical_call_history %}
+                <tr>
+                    <!-- <td>{{ call.id }}</td> -->
+                    <td>{{ call.date }}</td>
+                    <td>{{ call.patient.full_name }}</td>
+                    <td>{{ call.symptoms }}</td>
+                    <td>{{ call.diagnosis }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
