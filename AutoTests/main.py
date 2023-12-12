@@ -1,7 +1,7 @@
 import pytest
 from selenium import webdriver
-from selenium.webdriver.firefox.service import Service as FirefoxService
-from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 import time, sys
 from selenium.webdriver.common.by import By
 
@@ -9,14 +9,17 @@ from test_auth import auth
 
 
 def test_main():
-   options = webdriver.FirefoxOptions()
-   
-   driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=options)
+   options = webdriver.ChromeOptions()
+   options.add_experimental_option("excludeSwitches", ["enable-logging"])
+   #options.add_argument("--headless")
+   #options.add_argument("--disable-gpu")  # Может быть необходимо для headless-режима на некоторых системах
+   options.add_argument("--no-sandbox") 
+   driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 
    driver.maximize_window()
    driver.implicitly_wait(60)
    
-   driver.get("http://localhost:5000")
+   driver.get("http://172.16.238.10:8000")
 
    result_auth = auth(driver=driver)
    assert result_auth == True, "Ошибка аутентификации."
