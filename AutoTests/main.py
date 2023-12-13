@@ -7,11 +7,12 @@ from selenium.webdriver.common.by import By
 
 from test_auth import auth
 from test_medication import medicine
-
+from test_visit import visit
 def test_main():
    options = webdriver.ChromeOptions()
    options.add_experimental_option("excludeSwitches", ["enable-logging"])
-
+   options.add_argument("--no-sandbox")
+   
    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 
    driver.maximize_window()
@@ -23,6 +24,8 @@ def test_main():
    assert result_auth == True, "Ошибка аутентификации."
    result_medication = medicine(driver=driver)
    assert result_medication == True, "Ошибка при добавлении лекарства."
+   result_visit = visit(driver=driver)
+   assert result_visit == True, "Ошибка при добавлении осмотра."
 
    driver.close()
    driver.quit()
