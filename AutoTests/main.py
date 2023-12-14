@@ -13,12 +13,13 @@ def test_main():
    options.add_experimental_option("excludeSwitches", ["enable-logging"])
    options.add_argument("--no-sandbox")
    
-   driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+   
+   /usr/bin/chromedriver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 
    driver.maximize_window()
    driver.implicitly_wait(60)
    
-   driver.get("http://localhost:5000")
+   driver.get("http://172.16.238.10:8000")
 
    result_auth = auth(driver=driver)
    assert result_auth == True, "Ошибка аутентификации."
