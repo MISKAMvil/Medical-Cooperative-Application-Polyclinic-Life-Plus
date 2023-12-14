@@ -7,6 +7,8 @@
 -- Версия сервера: 8.1.0
 -- Версия PHP: 8.2.7
 
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'0.0.0.0' IDENTIFIED BY 'root';
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
