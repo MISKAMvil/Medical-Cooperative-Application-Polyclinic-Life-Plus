@@ -19,8 +19,15 @@ def add_patient():
     gender = request.form['gender']
     birth_date = request.form['birth_date']
     home_address = request.form['home_address']
+    person_details = request.form['person_details']
 
-    new_patient = Patient(first_name=first_name, last_name=last_name, middle_name=middle_name, gender=gender, birth_date=birth_date, home_address=home_address)
+    new_patient = Patient(first_name=first_name,
+                          last_name=last_name,
+                          middle_name=middle_name,
+                          gender=gender,
+                          birth_date=birth_date,
+                          home_address=home_address,
+                          person_details=person_details)
 
     try:
         db.session.add(new_patient)

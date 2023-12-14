@@ -3,14 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: localhost
--- Время создания: Ноя 08 2023 г., 20:49
+-- Время создания: Дек 14 2023 г., 11:52
 -- Версия сервера: 8.1.0
 -- Версия PHP: 8.2.7
-
-
-CREATE DATABASE mcaplpv1;
-use mcaplpv1;
-
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -25,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- База данных: `mcaplpv1`
 --
+CREATE DATABASE IF NOT EXISTS `mcaplpv1` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `mcaplpv1`;
 
 -- --------------------------------------------------------
 
@@ -41,7 +38,7 @@ CREATE TABLE `alembic_version` (
 --
 
 INSERT INTO `alembic_version` (`version_num`) VALUES
-('bd941f5c8ef2');
+('4ee550c7d49d');
 
 -- --------------------------------------------------------
 
@@ -69,7 +66,10 @@ INSERT INTO `appointments` (`id`, `patient_id`, `date`, `symptoms`, `diagnosis`)
 (5, 19, '2023-11-08 22:12:33', 'Кашель и боль в горле', 'Ангина'),
 (6, 19, '2023-11-08 23:39:54', 'Насморк', 'Ангина'),
 (7, 19, '2023-11-08 23:40:32', 'Насморк', 'Ангина'),
-(8, 20, '2023-11-08 23:43:22', 'Насморк 2', 'Ангина 1');
+(8, 20, '2023-11-08 23:43:22', 'Насморк 2', 'Ангина 1'),
+(9, 21, '2023-12-12 12:06:45', 'очень плохо', 'лох'),
+(10, 21, '2023-12-12 15:49:42', 'кашель', 'кашель сухой'),
+(11, 22, '2023-12-14 14:50:56', 'кашель', 'кашель сухой');
 
 -- --------------------------------------------------------
 
@@ -87,15 +87,6 @@ CREATE TABLE `medications` (
   `appointment_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Дамп данных таблицы `medications`
---
-
-INSERT INTO `medications` (`id`, `name`, `method_of_use`, `description`, `effects`, `side_effects`, `appointment_id`) VALUES
-(1, '123', '123', '123', '123', '123', NULL),
-(2, '123', '213', '132', '312', '123', 7),
-(3, 'qw qw', '1333', '1333', '1333', '3333', 8);
-
 -- --------------------------------------------------------
 
 --
@@ -109,16 +100,19 @@ CREATE TABLE `patients` (
   `middle_name` varchar(100) DEFAULT NULL,
   `gender` varchar(10) NOT NULL,
   `birth_date` date NOT NULL,
-  `home_address` varchar(100) NOT NULL
+  `home_address` varchar(100) NOT NULL,
+  `person_details` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `patients`
 --
 
-INSERT INTO `patients` (`id`, `first_name`, `last_name`, `middle_name`, `gender`, `birth_date`, `home_address`) VALUES
-(19, 'Максим', 'Балаев', 'Игоревич', 'Male', '2002-03-20', '12 Малая Семеновская'),
-(20, 'Максим', 'Балаев', '', 'Male', '1922-02-02', 'дом 12');
+INSERT INTO `patients` (`id`, `first_name`, `last_name`, `middle_name`, `gender`, `birth_date`, `home_address`, `person_details`) VALUES
+(19, 'Максим', 'Балаев', 'Игоревич', 'Male', '2002-03-20', '12 Малая Семеновская', NULL),
+(20, 'Максим', 'Балаев', '', 'Male', '1922-02-02', 'дом 12', NULL),
+(21, 'Майк', 'Барков', '', 'Male', '1976-03-20', '16 Sinkovo street', NULL),
+(22, 'Виктор', 'Корнеплод', 'Олегович', 'Male', '1979-06-12', 'Ул. Пушкина, д. Колотушкина 12', 'бибоб');
 
 -- --------------------------------------------------------
 
@@ -217,19 +211,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT для таблицы `medications`
 --
 ALTER TABLE `medications`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT для таблицы `roles`

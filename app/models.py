@@ -27,6 +27,7 @@ class Patient(db.Model):
     gender = db.Column(db.String(10), nullable=False)
     birth_date = db.Column(db.Date, nullable=False)
     home_address = db.Column(db.String(100), nullable=False)
+    person_details = db.Column(db.Text) # Дополнительное текстовое поле с деталями о пациенте
 
     @property
     def full_name(self):

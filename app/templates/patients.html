@@ -13,6 +13,7 @@
                 <th>Пол</th>
                 <th>Дата Рождения</th>
                 <th>Домашний Адрес</th>
+                <th>Данные пациента</th>
                 <th>Действия</th> <!-- Заголовок для колонки действий -->
             </tr>
         </thead>
@@ -24,6 +25,7 @@
                 <td>{{ patient.gender }}</td>
                 <td>{{ patient.birth_date.strftime('%d %B %Y') }}</td>
                 <td>{{ patient.home_address }}</td>
+                <td>{{ patient.person_details }}</td>
                 <td>
                     <!-- Перейти на страницу с историей приемов -->
                     <a href="{{ url_for('patients.appointments', patient_id=patient.id) }}" class="btn btn-primary">
@@ -103,6 +105,10 @@
                         <div class="mb-3">
                             <label for="home_address" class="form-label">Домашний Адрес</label>
                             <input type="text" class="form-control" id="home_address" name="home_address" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="person_details" class="form-label">Данные пациента</label>
+                            <input type="text" class="form-control" id="person_details" name="person_details">
                         </div>
                     </div>
                     <div class="modal-footer">
