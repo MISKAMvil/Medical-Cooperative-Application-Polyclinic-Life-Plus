@@ -14,8 +14,8 @@ def test_main():
    options.add_argument("--no-sandbox")
    
    
-   #driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
-   driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver")
+   driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
+   #driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver")
 
    driver.maximize_window()
    driver.implicitly_wait(60)
