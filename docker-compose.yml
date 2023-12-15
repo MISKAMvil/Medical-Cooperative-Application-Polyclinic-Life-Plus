@@ -14,7 +14,7 @@ services:
     environment:
      - MYSQL_DATABASE=mcaplpv1
      - MYSQL_ROOT_PASSWORD=root
-     - MYSQL_ROOT_HOST=%
+     - MYSQL_ROOT_HOST='%'
      - MYSQL_USER=root
     networks:
       net1:
