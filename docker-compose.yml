@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   gunicorn:
-    image: 192.168.31.10:5000/polyplus
+    image: 192.168.31.10:5000/polyplus:latest
     networks:
       net1:
         ipv4_address: 172.16.238.10  
@@ -14,7 +14,8 @@ services:
     environment:
      - MYSQL_DATABASE=mcaplpv1
      - MYSQL_ROOT_PASSWORD=root
-     - MYSQL_ROOT_HOST=172.16.238.10
+     - MYSQL_ROOT_HOST='%'
+     - MYSQL_USER=root
     networks:
       net1:
        ipv4_address: 172.16.238.11
