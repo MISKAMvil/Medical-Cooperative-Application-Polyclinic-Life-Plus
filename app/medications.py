@@ -1,17 +1,20 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from app import db
 from models import *
+from flask_login import login_required
 
 bp = Blueprint('medications', __name__, url_prefix='/medications')
 
 
 @bp.route('/')
+@login_required
 def medication_list():
     medications = Medication.query.all()
     return render_template('medications.html', medications=medications)
 
 
 @bp.route('/add', methods=['POST'])
+@login_required
 def add_medication():
     if request.method == 'POST':
         
@@ -34,6 +37,7 @@ def add_medication():
 
 
 @bp.route('medication<int:medication_id>/delete_medication', methods=['POST'])
+@login_required
 def delete_medication(medication_id):
     if request.method == 'POST':
         

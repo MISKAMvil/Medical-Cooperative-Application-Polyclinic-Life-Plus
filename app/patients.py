@@ -1,17 +1,20 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from app import db
 from models import *
+from flask_login import login_required
 
 bp = Blueprint('patients', __name__, url_prefix='/patients')
 
 
 @bp.route('/')
+@login_required
 def patient_list():
     patients = Patient.query.all()  # Получаем все записи из таблицы пациентов
     return render_template('patients.html', patients=patients)
 
 
 @bp.route('/add_patient', methods=['POST'])
+@login_required
 def add_patient():
     first_name = request.form['first_name']
     last_name = request.form['last_name']
@@ -43,6 +46,7 @@ def add_patient():
 
 
 @bp.route('/patient<int:patient_id>/delete_patient', methods=['POST'])
+@login_required
 def delete_patient(patient_id):
     if request.method == 'POST':
         
@@ -62,6 +66,7 @@ def delete_patient(patient_id):
 
 
 @bp.route('/patient<int:patient_id>', methods=['GET'])
+@login_required
 def appointments(patient_id):
     patient = Patient.query.get(patient_id)
     # Получаем информацию об осмотрах пациента из базы данных
@@ -71,6 +76,7 @@ def appointments(patient_id):
 
 
 @bp.route('/patient<int:patient_id>/add_appointment', methods=['POST'])
+@login_required
 def add_appointment(patient_id):
     if request.method == 'POST':
         location = request.form.get('location')

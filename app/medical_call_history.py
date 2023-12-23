@@ -1,12 +1,14 @@
 from flask import Blueprint, render_template, request
 from app import db
 from models import Medication, Appointment
-
+from flask_login import login_required
 from sqlalchemy.orm import joinedload
 
 bp = Blueprint('medical_call_history', __name__, url_prefix='/medical_call_history')
 
+
 @bp.route('/')
+@login_required
 def medical_call_history():
     # Получение параметров фильтрации из запроса
     start_date = request.args.get('start_date')

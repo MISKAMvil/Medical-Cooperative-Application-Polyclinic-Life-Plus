@@ -10,13 +10,20 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 # Библиотека Flask-Migrate позволяет мигрировать базы данных в приложении Flask, используя SQLAlchemy
 
+from prometheus_client import Summary, generate_latest
+# from prometheus_client import Counter, start_http_server
+from prometheus_flask_exporter import PrometheusMetrics
 
+REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
+# создание метрики для отслеживания затраченного времени и выполненных запросов.
 
 app = Flask(__name__)
 # создает экземпляр приложения Flask, с именем текущего модуля (__name__ - это встроенная переменная, которая содержит имя текущего модуля)
 
 application = app
 # копирует объект приложения Flask в новую переменную `application`. Обычно используется, когда запускается сервер приложений, который ожидает переменную `application` в качестве имени приложения
+
+metrics = PrometheusMetrics(app, group_by='endpoint')
 
 app.config.from_pyfile('config.py')
 # подклюячаем 'config.py', он содержит переменные с параметрами конфигурации, которые могут быть использованы в приложении (настройки базы данных, настройки безопасности, параметры сессии)
@@ -54,6 +61,23 @@ app.register_blueprint(medical_call_history_bp)
 
 init_login_manager(app)
 
+# @app.before_request
+# def before_request():
+#     if not request.is_secure:
+#         url = request.url.replace('http://', 'https://', 1)
+#         code = 301
+#         return redirect(url, code=code)
+
+
 @app.route('/')
+@REQUEST_TIME.time()
 def index():
     return render_template('index.html')
+
+
+@app.route('/metrics')
+def metrics():
+    return generate_latest()
+
+# if __name__ == '__main__':
+#     app.run(debug=True, threaded=True)
